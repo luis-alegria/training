@@ -31,9 +31,11 @@ workflow {
 
     // create a channel for inputs
     greeting_ch = Channel.fromPath(params.greeting)
-                    //.view{greeting -> "Before flatten: $greeting"}
-                    //.flatten()
-                    //  .view{greeting -> "After flatten: $greeting"}
+                    .view{ csv -> "Before splitCsv: $csv" }
+                    .splitCsv()
+                    .map{ item -> item[0]}
+                    .view{ csv -> "After splitCsv: $csv" }
+                    .view { csv -> "After map: $csv"}
 
     // emit a greeting
     sayHello(greeting_ch)
