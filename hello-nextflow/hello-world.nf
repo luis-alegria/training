@@ -5,17 +5,24 @@
  */
 process sayHello {
 
+    publishDir 'results', mode: 'copy'
+
+    input:
+    val greeting
+
     output:
         path 'output.txt'
 
     script:
     """
-    echo 'Hello World!' > output.txt
+    echo '$greeting' > output.txt
     """
 }
+
+params.greeting = "Hola mundo!"
 
 workflow {
 
     // emit a greeting
-    sayHello()
+    sayHello(params.greeting)
 }
